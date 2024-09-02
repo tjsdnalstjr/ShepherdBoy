@@ -347,7 +347,7 @@ MonoBehaviour:
     \uBCA0\uD305\uC744 \uD55C \uD50C\uB808\uC774\uC5B4\uC758 \uC591\uC744 \uC783\uC2B5\uB2C8\uB2E4.\n\uB2E8,
     \uC591\uCE58\uAE30 \uC18C\uB144\uC774 \uAC70\uC9D3\uC744 \uB9D0\uD588\uC744 \uACBD\uC6B0\n\uD50C\uB808\uC774\uC5B4\uAC00
     \uC783\uC5B4\uBC84\uB9B0 \uC591\uC744 \uC591\uCE58\uAE30 \uC18C\uB144\uC774 \uAC00\uC838\uAC11\uB2C8\uB2E4.\n\uC704
-    \uACFC\uC815\uC744 3\uBC88 \uBC18\uBCF5\uD569\uB2C8\uB2E4."
+    \uACFC\uC815\uC740 \uD55C \uB77C\uC6B4\uB4DC\uB85C \uCD5C\uB300 3\uBC88 \uBC18\uBCF5\uD569\uB2C8\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fb5790196ee38a440ab40091dcce01dc, type: 2}
   m_sharedMaterial: {fileID: 4020154673688101377, guid: fb5790196ee38a440ab40091dcce01dc, type: 2}
@@ -441,7 +441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &137316523
 RectTransform:
   m_ObjectHideFlags: 0
@@ -688,7 +688,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 499060040}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -986,10 +998,11 @@ MonoBehaviour:
   m_text: "2\uB2E8\uACC4\n\uC591\uCE58\uAE30 \uC18C\uB144\uC774 \uB41C \uD50C\uB808\uC774\uC5B4\uB294
     7\uC7A5 \uC911 \uD55C\uC7A5\uC744 \uBF51\uC2B5\uB2C8\uB2E4.\n\uCE74\uB4DC\uB294
     <color=#088A08>\uD3C9\uD654</color> 4\uC7A5\uACFC <color=#B40404>\uB291\uB300</color>
-    3\uC7A5\uC774 \uC788\uC2B5\uB2C8\uB2E4.\n\uC591\uCE58\uAE30 \uC18C\uB144\uC740
-    \uCE74\uB4DC\uB97C \uD655\uC778\uD55C \uD6C4\n\uB291\uB300\uAC00 \"<color=#ff0000>\uC628\uB2E4</color>\"
-    \"<color=#0000ff>\uC548\uC628\uB2E4</color>\"\n\uB458 \uC911 \uD558\uB098\uB97C
-    \uB9D0\uD569\uB2C8\uB2E4."
+    3\uC7A5\uC774 \uC788\uC2B5\uB2C8\uB2E4.\n(\uBF51\uC740 \uCE74\uB4DC\uB294 \uB2E4\uC74C
+    \uB77C\uC6B4\uB4DC\uC5D0\uC11C \uC0AC\uB77C\uC9D1\uB2C8\uB2E4.)\n\uC591\uCE58\uAE30
+    \uC18C\uB144\uC740 \uCE74\uB4DC\uB97C \uD655\uC778\uD55C \uD6C4\n\uB291\uB300\uAC00
+    \"<color=#ff0000>\uC628\uB2E4</color>\" \"<color=#0000ff>\uC548\uC628\uB2E4</color>\"\n\uB458
+    \uC911 \uD558\uB098\uB97C \uB9D0\uD569\uB2C8\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fb5790196ee38a440ab40091dcce01dc, type: 2}
   m_sharedMaterial: {fileID: 4020154673688101377, guid: fb5790196ee38a440ab40091dcce01dc, type: 2}
@@ -1210,6 +1223,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 499060041}
+  - component: {fileID: 499060042}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1232,6 +1246,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &499060042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499060040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8fa80d79c9ec2c4397f3e73b1370e22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nick: 
+  myPlayer: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2820,7 +2848,7 @@ GameObject:
   - component: {fileID: 1169645494}
   - component: {fileID: 1169645493}
   m_Layer: 5
-  m_Name: Background
+  m_Name: TitleUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2948,7 +2976,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "[\uC644\uBCBD\uD55C <color=#FF0000>\uBD88\uC2E0</color>\uC758 \uC2E4\uD328]\n\uC591\uCE58\uAE30
+  m_text: "[\uC644\uBCBD\uD55C <color=#FF0000>\uAC70\uC9D3</color>\uC758 \uC2E4\uD328]\n\uC591\uCE58\uAE30
     \uC18C\uB144\uC774 \uD3C9\uD654\uB97C \uBF51\uC740 \uD6C4 \uAC70\uC9D3\uC744
     \uB9D0\uD588\uC744 \uB54C\n\uBAA8\uB4E0 \uC8FC\uBBFC\uC774 \uBD88\uC2E0\uC5D0
     \uBCA0\uD305\uD588\uC744 \uACBD\uC6B0\n\uC591\uCE58\uAE30 \uC18C\uB144\uC740
@@ -3098,14 +3126,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295875802}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1828999326}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 50}

@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class GameManager : Singleton<GameManager>
 {
-    public string nick;
-    public Player myPlayer;
+    public string myName;
 }

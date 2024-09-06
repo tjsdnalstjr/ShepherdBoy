@@ -1,8 +1,9 @@
-using System.Collections;
+//using System.Collections;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using UnityEngine;
 using Photon.Pun;
-
+using Photon.Realtime;
 public struct Card
 {
     public enum Card_Type { WOLF, PEACE }
@@ -13,21 +14,24 @@ public struct Card
     }
 }
 
-public class GameMaster : MonoBehaviour
+public class GameMaster : MonoBehaviourPunCallbacks
 {
-    private bool isMaster;
+    public enum Game_Phase { SELECTSHAPHERD, DRAWCARD, ASSERT, BETTING, CHECKRESULT }
+    private bool isMaster = false;
     private List<Card> cardDeck = new List<Card>();
-    public List<Player> playerList = new List<Player>();
     public Card nowCard;
-    public PhotonView photonView;
-    public bool wolfCome;
-    public Player nowShapherd;
-    void GameStart()
+    public GamePlayer nowShapherd;
+    void StartGame()
     {
         isMaster = PhotonNetwork.LocalPlayer.IsMasterClient;
+        Hashtable data = new Hashtable();
         if(isMaster)
         {
-            InitializeCardDeck();
+            foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
+            {
+                data = new Hashtable() { { "PlayedShapherd", false }, { "SheepCount", 5 } , { "Name", GameManager.Instance.myName } };
+                player.SetCustomProperties(data);
+            }
         }
     }
 
@@ -51,7 +55,8 @@ public class GameMaster : MonoBehaviour
         int cardIndex = Random.Range(0, cardDeck.Count);
         Card drawCard = cardDeck[cardIndex];
         cardDeck.Remove(drawCard);
-        photonView.RPC("SetCard", RpcTarget.All, drawCard.type);
+        Hashtable props = new Hashtable() { { "DrawCard", drawCard } };
+        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
     }
 
     public void SelectShepherd()
@@ -59,21 +64,27 @@ public class GameMaster : MonoBehaviour
         int index;
         do
         {
-            index = Random.Range(0, playerList.Count);
-        } while (playerList[index].playedShepherd || playerList[index].IsEliminated());//탈락하지 않고 양치기 소년을 한번더 해보지 못한 유저를 뽑기
-        photonView.RPC("SetShepherd", RpcTarget.All, index);
+            index = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
+        } while ((bool)PhotonNetwork.CurrentRoom.Players[index].CustomProperties["PlayedShapherd"] || ((int)PhotonNetwork.CurrentRoom.Players[index].CustomProperties["SheepCount"] <= 0));//양을 보유하고 있고 양치기 소년을 한번더 해보지 못한 유저를 뽑기
+        Hashtable props = new Hashtable(){{"ShepherdPlayer", PhotonNetwork.CurrentRoom.Players[index].CustomProperties["Name"]}};
+        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
     }
 
-    [PunRPC]
-    public void SetCard(Card.Card_Type type)
+    public void StartPhase()
     {
-        nowCard = new Card(type);
+        SelectShepherd();
+        InitializeCardDeck();
     }
 
-    [PunRPC]
-    public void SetShepherd(int index)
+    public void StartRound()
     {
-        nowShapherd = playerList[index];
-        nowShapherd.playedShepherd = true;
+        if (isMaster)
+        {
+            DrawCard();
+        }
+        if((string)PhotonNetwork.CurrentRoom.CustomProperties["ShepherdPlayer"] == GameManager.Instance.myName)
+        {
+            //카드 이미지 공개
+        }
     }
 }

@@ -5,5 +5,5 @@ using Photon.Pun;
 
 public class GameManager : Singleton<GameManager>
 {
-    public string myName;
+    
 }

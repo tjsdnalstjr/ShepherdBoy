@@ -16,20 +16,27 @@ public struct Card
 
 public class GameMaster : MonoBehaviourPunCallbacks
 {
-    public enum Game_Phase { SELECTSHAPHERD, DRAWCARD, ASSERT, BETTING, CHECKRESULT }
     private bool isMaster = false;
     private List<Card> cardDeck = new List<Card>();
     public Card nowCard;
-    public GamePlayer nowShapherd;
+    float Timer;
+    public GameUIManager uiManager;
+    PhotonView pv;
+    string shapherdPlayer;
+    private void Update()
+    {
+
+    }
+
     void StartGame()
     {
         isMaster = PhotonNetwork.LocalPlayer.IsMasterClient;
         Hashtable data = new Hashtable();
-        if(isMaster)
+        if (isMaster)
         {
             foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
             {
-                data = new Hashtable() { { "PlayedShapherd", false }, { "SheepCount", 5 } , { "Name", GameManager.Instance.myName } };
+                data = new Hashtable() { { "PlayedShapherd", false }, { "SheepCount", 5 }, { "Name", player.NickName } };
                 player.SetCustomProperties(data);
             }
         }
@@ -66,14 +73,19 @@ public class GameMaster : MonoBehaviourPunCallbacks
         {
             index = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
         } while ((bool)PhotonNetwork.CurrentRoom.Players[index].CustomProperties["PlayedShapherd"] || ((int)PhotonNetwork.CurrentRoom.Players[index].CustomProperties["SheepCount"] <= 0));//양을 보유하고 있고 양치기 소년을 한번더 해보지 못한 유저를 뽑기
-        Hashtable props = new Hashtable(){{"ShepherdPlayer", PhotonNetwork.CurrentRoom.Players[index].CustomProperties["Name"]}};
-        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+        shapherdPlayer = (string)PhotonNetwork.CurrentRoom.Players[index].CustomProperties["Name"];
+        Hashtable props = new Hashtable() { { "PlayedShapherd",true } };
+        PhotonNetwork.CurrentRoom.Players[index].SetCustomProperties(props);
+        pv.RPC("ReportShepherd", RpcTarget.All);
     }
 
     public void StartPhase()
     {
-        SelectShepherd();
-        InitializeCardDeck();
+        if (isMaster)
+        {
+            SelectShepherd();
+            InitializeCardDeck();
+        }
     }
 
     public void StartRound()
@@ -82,9 +94,20 @@ public class GameMaster : MonoBehaviourPunCallbacks
         {
             DrawCard();
         }
-        if((string)PhotonNetwork.CurrentRoom.CustomProperties["ShepherdPlayer"] == GameManager.Instance.myName)
+        if (shapherdPlayer == PhotonNetwork.LocalPlayer.NickName)
         {
-            //카드 이미지 공개
+            
         }
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+    }
+
+    [PunRPC]
+    public void ReportShepherd()
+    {
+        uiManager.OpenReportUI(shapherdPlayer + "님이 양치소년이 되었습니다.");
     }
 }
